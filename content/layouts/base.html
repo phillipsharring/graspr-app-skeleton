@@ -23,6 +23,9 @@
                 <h4 class="text-lg font-bold tracking-tight">
                     <a href="[[siteUrl]]">[[siteName]]</a>
                 </h4>
+                <div class="ml-auto">
+                    <component file="auth/auth-links.html"></component>
+                </div>
             </div>
         </header>
         <main id="app" data-layout="base" class="p-6 pt-20 pb-20">[[app]]</main>
@@ -32,5 +35,6 @@
         <modal></modal>
         <toast></toast>
         <confirm-dialog></confirm-dialog>
+        <component file="auth/login-modal.html"></component>
     </body>
 </html>
