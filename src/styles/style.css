@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+@source "../../content/**/*.html";
+@source "../**/*.js";
+
+@import '@phillipsharring/graspr-framework/styles/base.css';
