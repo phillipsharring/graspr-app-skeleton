@@ -20,7 +20,12 @@ import {
     attachClickBurst,
     initClickBurst,
     createTypeahead,
+    onAfterSwap,
+    onAfterSettle,
+    onPageLoad,
+    onHistoryRestore,
 } from '@phillipsharring/graspr-framework';
+import { capture as abCapture, getAssignments as abGetAssignments } from './ab.js';
 
 window.App = {
     // API client
@@ -48,4 +53,10 @@ window.App = {
         },
         createTypeahead,
     },
+
+    // A/B testing
+    ab: { capture: abCapture, getAssignments: abGetAssignments },
+
+    // Lifecycle hooks
+    hooks: { onAfterSwap, onAfterSettle, onPageLoad, onHistoryRestore },
 };

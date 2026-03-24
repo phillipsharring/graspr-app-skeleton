@@ -79,7 +79,7 @@
 
             <button
                 type="submit"
-                class="w-full rounded px-3 py-2 bg-slate-900 text-white hover:bg-slate-800 font-medium"
+                class="w-full rounded px-3 py-2 bg-slate-800 text-white hover:bg-slate-700 font-medium"
             >Sign Up</button>
         </form>
 
@@ -97,6 +97,7 @@ if (signupForm) {
         if (!e.detail.successful) return;
         try {
             var data = JSON.parse(e.detail.xhr.responseText);
+            App.ab.capture('signup');
             if (data.meta && data.meta.redirect) {
                 window.location.href = data.meta.redirect;
             }

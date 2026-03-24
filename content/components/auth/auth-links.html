@@ -40,6 +40,13 @@
                 hx-swap="none"
                 hx-on::after-request="window.location.href='/'"
             >Logout</a>
+            <div data-requires-permission="admin.access" hidden>
+                <hr class="my-1 border-stone-200">
+                <a
+                    href="/admin/"
+                    class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 transition-colors"
+                >Admin</a>
+            </div>
         </div>
     </div>
 </span>
