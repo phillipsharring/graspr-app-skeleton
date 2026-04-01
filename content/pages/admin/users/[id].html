@@ -25,6 +25,17 @@
 
     <template id="user-detail-template">
         <input id="user-role-ids" type="hidden" value="{{json role_ids}}" />
+
+        {{#if blocked_at}}
+        <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-center justify-between">
+            <div>
+                <span class="text-sm font-medium text-red-800">This account is blocked</span>
+                <span class="text-xs text-red-600 ml-2">{{formatDateTime blocked_at}}</span>
+            </div>
+            <button type="button" class="text-sm text-red-700 hover:text-red-900 underline font-medium" id="btn-unblock">Unblock</button>
+        </div>
+        {{/if}}
+
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold">{{name}}</h1>
@@ -34,6 +45,9 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
+                {{#unless blocked_at}}
+                <button type="button" class="border border-red-200 text-red-600 rounded px-4 py-2 hover:bg-red-50 text-sm" id="btn-block">Block</button>
+                {{/unless}}
                 <button
                     id="open-edit-user-modal"
                     type="button"
@@ -236,6 +250,40 @@ function openEditUserModal(btn) {
 document.getElementById('user-detail').addEventListener('click', function(e) {
     const btn = e.target.closest('#open-edit-user-modal');
     if (btn) openEditUserModal(btn);
+
+    // Block user
+    if (e.target.closest('#btn-block')) {
+        App.ui.confirm.open({
+            message: 'Block this user?',
+            subtext: 'They will be logged out on their next request and unable to sign in.',
+            confirmText: 'Block User',
+            cancelText: 'Cancel',
+            onConfirm: function() {
+                return App.api.fetch(`/api/admin/users/${getUserId()}/block`, {
+                    method: 'PATCH',
+                    body: { blocked: true }
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(res) {
+                    App.ui.toast.show({ message: res.message, status: 'success' });
+                    window.htmx.trigger(document.getElementById('user-detail'), 'reload-user-detail-event');
+                });
+            }
+        });
+    }
+
+    // Unblock user
+    if (e.target.closest('#btn-unblock')) {
+        App.api.fetch(`/api/admin/users/${getUserId()}/block`, {
+            method: 'PATCH',
+            body: { blocked: false }
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+            App.ui.toast.show({ message: res.message, status: 'success' });
+            window.htmx.trigger(document.getElementById('user-detail'), 'reload-user-detail-event');
+        });
+    }
 });
 
 window.onReady(initHtmxUrls);
