@@ -1,5 +1,18 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
+
+let _gitSha = null;
+function getGitSha() {
+    if (_gitSha === null) {
+        try {
+            _gitSha = `<!-- ${execSync('git rev-parse --short HEAD', { encoding: 'utf-8' }).trim()} -->`;
+        } catch {
+            _gitSha = '';
+        }
+    }
+    return _gitSha;
+}
 
 function htmlEscape(s) {
     return String(s)
@@ -541,6 +554,9 @@ export async function renderPage({ layoutsDir, pagePath, title, jsSrc, cssHref, 
     for (const [key, value] of Object.entries(siteConfig)) {
         result = result.replaceAll(`[[${key}]]`, htmlEscape(String(value ?? '')));
     }
+
+    // Inject git short SHA as an HTML comment
+    result = result.replaceAll('[[gitSha]]', getGitSha());
 
     return result;
 }
