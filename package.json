@@ -5,13 +5,13 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build && graspr-build-pages",
+        "build": "vite build && node ./scripts/build-pages.mjs",
         "preview": "vite preview"
     },
     "author": "",
     "private": true,
     "devDependencies": {
-        "@phillipsharring/graspr-build": "^0.1.0",
+        "@phillipsharring/graspr-build": "^0.2.0",
         "@tailwindcss/vite": "^4.1.18",
         "handlebars": "^4.7.8",
         "htmx.org": "^2.0.8",

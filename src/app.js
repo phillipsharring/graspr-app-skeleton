@@ -44,6 +44,15 @@ import './ab.js';
 
 // Assemble window namespace (must be after all module imports)
 import './namespace.js';
+
+// ── Frontend modules ──
+// Eagerly import every module's module.js. Vite resolves this glob at build
+// time, so any side effects (helper registration, App.* contributions, HTMX
+// listeners, etc.) fire as part of the bundle. Removing a module = deleting
+// its directory under modules/. Adding one = creating a directory and adding
+// its name to site.config.modules so the build/dev plugin discovers its pages.
+import.meta.glob('../modules/*/module.js', { eager: true });
+
 // Copy-to-clipboard button handler
 initCopyIdHandler();
 

@@ -1,7 +1,22 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { grasprBuild } from '@phillipsharring/graspr-build/vite';
 import siteConfig from './site.config.js';
+import { resolveModuleDirs } from './scripts/modules.mjs';
+
+// Resolve enabled modules into the multi-root pagesDirs / componentsDirs that
+// graspr-build expects. App's own content/* roots come first so app routes
+// always sort before module-contributed routes; conflict detection in
+// graspr-build will throw if a module tries to claim an app-owned route.
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+const moduleNames = Array.isArray(siteConfig.modules) ? siteConfig.modules : [];
+const { pagesDirs: modulePagesDirs, componentsDirs: moduleComponentsDirs } =
+    resolveModuleDirs(projectRoot, moduleNames);
+
+const pagesDirs = [path.join(projectRoot, 'content', 'pages'), ...modulePagesDirs];
+const componentsDirs = [path.join(projectRoot, 'content', 'components'), ...moduleComponentsDirs];
 
 export default defineConfig({
     root: 'src',
@@ -19,7 +34,7 @@ export default defineConfig({
             },
         },
     },
-    plugins: [tailwindcss(), grasprBuild({ siteConfig })],
+    plugins: [tailwindcss(), grasprBuild({ siteConfig, pagesDirs, componentsDirs })],
     build: {
         outDir: '../dist',
         assetsDir: 'assets',
