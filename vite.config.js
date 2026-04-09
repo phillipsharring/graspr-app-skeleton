@@ -18,6 +18,15 @@ const { pagesDirs: modulePagesDirs, componentsDirs: moduleComponentsDirs } =
 const pagesDirs = [path.join(projectRoot, 'content', 'pages'), ...modulePagesDirs];
 const componentsDirs = [path.join(projectRoot, 'content', 'components'), ...moduleComponentsDirs];
 
+// Optional dev allowlist for the Vite host check. Set HANDLR_ALLOWED_HOSTS to
+// a comma-separated list (e.g. "myapp.test") when serving the dev server
+// behind a reverse proxy. Vite's default host check rejects unknown Host
+// headers; this is the supported escape hatch.
+const allowedHosts = (process.env.HANDLR_ALLOWED_HOSTS || '')
+    .split(',')
+    .map((h) => h.trim())
+    .filter(Boolean);
+
 export default defineConfig({
     root: 'src',
     publicDir: '../public',
@@ -26,6 +35,7 @@ export default defineConfig({
         include: ['htmx.org', 'handlebars', 'sortablejs'],
     },
     server: {
+        ...(allowedHosts.length > 0 ? { allowedHosts } : {}),
         proxy: {
             '/api': {
                 target: process.env.HANDLR_ORIGIN || 'http://localhost:8000',

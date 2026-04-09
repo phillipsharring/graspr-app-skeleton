@@ -42,16 +42,24 @@ registerAdminPermissionPrefixes([
 // A/B testing (self-registering — fetches assignments via lifecycle hooks)
 import './ab.js';
 
-// Assemble window namespace (must be after all module imports)
+// Assemble window namespace (must be after all framework imports so the
+// things namespace.js re-exports are available, and BEFORE the module glob
+// below so modules can safely reference window.App at their top level).
 import './namespace.js';
 
 // ── Frontend modules ──
-// Eagerly import every module's module.js. Vite resolves this glob at build
-// time, so any side effects (helper registration, App.* contributions, HTMX
-// listeners, etc.) fire as part of the bundle. Removing a module = deleting
-// its directory under modules/. Adding one = creating a directory and adding
-// its name to site.config.modules so the build/dev plugin discovers its pages.
-import.meta.glob('../modules/*/module.js', { eager: true });
+// Lazily import every module's module.js, then await them all. We use the
+// non-eager form on purpose: { eager: true } would let Vite hoist these
+// imports above namespace.js, breaking modules that reference App.* at the
+// top level. The await chain below blocks the rest of app.js from running
+// until every module has finished its init code, so behavior is identical
+// to the eager form for downstream consumers.
+//
+// Removing a module = deleting its directory under modules/. Adding one =
+// creating a directory and adding its name to site.config.modules so the
+// build/dev plugin discovers its pages.
+const __modules = import.meta.glob('../modules/*/module.js');
+await Promise.all(Object.values(__modules).map((load) => load()));
 
 // Copy-to-clipboard button handler
 initCopyIdHandler();

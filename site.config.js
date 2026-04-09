@@ -11,5 +11,5 @@ export default {
     siteUrl: '/',
     siteName: 'My App',
     copyright: '© My App. All Rights Reserved',
-    modules: ['example'],
+    modules: ['examples'],
 };
