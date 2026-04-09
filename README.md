@@ -1,5 +1,7 @@
 # Graspr App Skeleton
 
+![Handlr](handlr.png)
+
 Starter project for building web applications with [Graspr Framework](https://github.com/phillipsharring/graspr-framework) — an HTMX + Handlebars + Tailwind CSS frontend framework.
 
 ## Getting Started
