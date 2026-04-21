@@ -3,7 +3,7 @@
 ## 0.2.0
 
 ### Updated
-- **Graspr Framework 0.2.0** — adds lifecycle hooks (`onAfterSwap`, `onAfterSettle`, `onPageLoad`, `onHistoryRestore`). Use these instead of raw `htmx:afterSwap` listeners.
+- **Graspr Framework 0.2.0**  - adds lifecycle hooks (`onAfterSwap`, `onAfterSettle`, `onPageLoad`, `onHistoryRestore`). Use these instead of raw `htmx:afterSwap` listeners.
 
 #### How to use hooks
 

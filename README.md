@@ -2,7 +2,7 @@
 
 ![Graspr](graspr.png)
 
-Starter project for building web applications with [Graspr Framework](https://github.com/phillipsharring/graspr-framework) — an HTMX + Handlebars + Tailwind CSS frontend framework.
+Starter project for building web applications with [Graspr Framework](https://github.com/phillipsharring/graspr-framework)  - an HTMX + Handlebars + Tailwind CSS frontend framework.
 
 ## Getting Started
 
@@ -24,7 +24,7 @@ Your app is running at `http://localhost:5173`.
 
 ```
 src/
-  app.js              Main entry — imports framework, registers helpers, lifecycle hooks
+  app.js              Main entry  - imports framework, registers helpers, lifecycle hooks
   namespace.js        Assembles window.App namespace for inline scripts
   styles/
     style.css         Tailwind + framework base styles + app overrides
@@ -40,7 +40,7 @@ content/
 scripts/
   html-compiler.mjs   Layout + component + page compiler
   build-pages.mjs     Static page generator for production builds
-site.config.js        Site name, URL, copyright — injected into layouts
+site.config.js        Site name, URL, copyright  - injected into layouts
 public/               Static assets (favicon, images)
 vite.config.js        Vite config with dev middleware and API proxy
 ```
