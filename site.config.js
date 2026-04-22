@@ -2,10 +2,11 @@
  * Site-wide configuration.
  * These values are injected into layouts via [[propName]] placeholders.
  *
- * `modules` is the list of frontend modules to enable. Each entry is the
- * directory name under `modules/`. See `scripts/modules.mjs` for the
- * convention. Order doesn't affect routing — graspr-build merges all roots
- * and errors loudly on cross-root route conflicts.
+ * `modules` is the list of frontend modules to enable. Each entry is either
+ * a module object (from an npm package) or a string (local directory name
+ * under `modules/`). See `@phillipsharring/graspr-build/modules` for the
+ * API. Order doesn't affect routing — graspr-build merges all roots and
+ * errors loudly on cross-root route conflicts.
  */
 export default {
     siteUrl: '/',

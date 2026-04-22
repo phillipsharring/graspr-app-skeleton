@@ -20,7 +20,7 @@
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { buildPages } from '@phillipsharring/graspr-build/build-pages';
-import { resolveModuleDirs } from './modules.mjs';
+import { resolveModuleDirs } from '@phillipsharring/graspr-build/modules';
 
 async function loadSiteConfig(rootDir) {
     const configPath = path.join(rootDir, 'site.config.js');
